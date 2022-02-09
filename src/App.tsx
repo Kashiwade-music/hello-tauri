@@ -49,7 +49,7 @@ function App() {
         </Box>
       </Box>
       <Button variant="contained" onClick={() => chengeDirectoryTo("../")}>
-        Contained
+        Current Dir
       </Button>
     </div>
   );
