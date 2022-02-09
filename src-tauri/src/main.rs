@@ -20,19 +20,13 @@ fn main() {
       // listen to the `event-name` (emitted on any window)
       let id = app.listen_global("cd_dir_to", |event| {
         println!("got click with payload {:?}", event.payload());
+        let new_path = event.payload().unwrap();
+        let mes = return_dir_data(new_path.to_string()).to_string();
+        app
+          .emit_all("new_dir_json", Payload { message: mes })
+          .unwrap()
       });
-      // unlisten to the event using the `id` returned on the `listen_global` function
-      // an `once_global` API is also exposed on the `App` struct
 
-      // emit the `event-name` event to all webview windows on the frontend
-      app
-        .emit_all(
-          "click",
-          Payload {
-            message: "Tauri is awesome!".into(),
-          },
-        )
-        .unwrap();
       Ok(())
     })
     .run(tauri::generate_context!())
@@ -42,7 +36,7 @@ fn main() {
 fn return_dir_data(path: String) -> serde_json::Value {
   let mut dir_data = json!({
       "err" : false,
-      "currentDir" : [],
+      "currentDir" : "",
       "dataList" :[]
   });
 
@@ -69,5 +63,6 @@ fn return_dir_data(path: String) -> serde_json::Value {
     }
     dir_data["dataList"].as_array_mut().unwrap().push(data_list);
   }
+  dir_data["currentDir"] = serde_json::Value::String(new_path.to_str().unwrap().to_string());
   return dir_data;
 }

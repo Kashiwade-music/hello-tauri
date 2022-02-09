@@ -10,7 +10,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 const dirData = {
     err: false,
-    currentDir : ["C","Users","username","Documents", "Sample Dir"],
+    currentDir : "c://hoge/to/path",
     dataList :[
         {
             name : "testdata.exe",
