@@ -4,6 +4,25 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## パッケージマネージャ
 中身はyarn使った方がよさそう
 
+## データのやり取り
+
+```js
+
+const dirData = {
+    currentDir : ["C","Users","username","Documents", "Sample Dir"],
+    dataList :[
+        {
+            name : "testdata.exe",
+            isDir : false,
+        },
+        {
+            name : "testDir",
+            isDir : true,
+        },
+    ]
+}
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
