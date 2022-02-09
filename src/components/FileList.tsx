@@ -7,16 +7,31 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import "../@types/dirData.d.ts";
 
-function FileList(props: DirData.RootObject) {
-  console.log("hoge");
+type Props = {
+  currentDir: string;
+  dataList: DirData.DataList[];
+  changeDirectoryTo: (newPath: string) => void;
+};
 
+function FileList(props: Props) {
+  let currentDir = props.currentDir
+    .split(/[\\|/]/)
+    .filter(Boolean)
+    .filter((v) => {
+      return !["?"].includes(v);
+    });
   return (
     <List>
-      {props.dataList.map((value) => {
+      {props.dataList.map((value, index) => {
+        const pathStr = currentDir.join("/") + "/" + value.name + "/";
         if (value.isDir) {
           return (
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton
+                onClick={() => {
+                  props.changeDirectoryTo(pathStr);
+                }}
+              >
                 <ListItemIcon>
                   <FolderIcon />
                 </ListItemIcon>
@@ -27,7 +42,7 @@ function FileList(props: DirData.RootObject) {
         } else {
           return (
             <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
+              <ListItemButton>
                 <ListItemIcon>
                   <TextSnippetIcon />
                 </ListItemIcon>
