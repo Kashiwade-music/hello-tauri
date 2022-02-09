@@ -9,6 +9,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ```js
 
 const dirData = {
+    err: false,
     currentDir : ["C","Users","username","Documents", "Sample Dir"],
     dataList :[
         {
