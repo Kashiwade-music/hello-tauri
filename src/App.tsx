@@ -15,6 +15,7 @@ import Stack from "@mui/material/Stack";
 import "./App.css";
 import MyAppBar from "./components/AppBar";
 import FileList from "./components/FileList";
+import PathButton from "./components/PathButton";
 import "./@types/dirData.d.ts";
 
 const handleClick = () => {
@@ -38,17 +39,18 @@ function App() {
       console.log(rustMsg);
     });
   };
-
+  if (dirData.currentDir == "") {
+    chengeDirectoryTo("../");
+  }
   return (
     <div className="App">
       <Box sx={{ flexGrow: 1 }}>
         <MyAppBar />
-        <Box sx={{ p: 1, pb: 0 }}>
-          <Stack direction="row" spacing={1}>
-            <Chip label="Clickable" onClick={handleClick} />
-            <Chip label="Clickable" variant="outlined" onClick={handleClick} />
-          </Stack>
-        </Box>
+        <PathButton
+          currentDir={dirData.currentDir}
+          dataList={dirData.dataList}
+          err={dirData.err}
+        />
         <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
           <FileList
             currentDir={dirData.currentDir}

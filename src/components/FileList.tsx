@@ -1,5 +1,6 @@
 import List from "@mui/material/List";
-import InboxIcon from "@mui/icons-material/Inbox";
+import FolderIcon from "@mui/icons-material/Folder";
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -7,24 +8,35 @@ import ListItemText from "@mui/material/ListItemText";
 import "../@types/dirData.d.ts";
 
 function FileList(props: DirData.RootObject) {
+  console.log("hoge");
+
   return (
     <List>
-      <ListItem disablePadding>
-        <ListItemButton>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Trash" />
-        </ListItemButton>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemButton component="a" href="#simple-list">
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Spam" />
-        </ListItemButton>
-      </ListItem>
+      {props.dataList.map((value) => {
+        if (value.isDir) {
+          return (
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <FolderIcon />
+                </ListItemIcon>
+                <ListItemText primary={value.name} />
+              </ListItemButton>
+            </ListItem>
+          );
+        } else {
+          return (
+            <ListItem disablePadding>
+              <ListItemButton component="a" href="#simple-list">
+                <ListItemIcon>
+                  <TextSnippetIcon />
+                </ListItemIcon>
+                <ListItemText primary={value.name} />
+              </ListItemButton>
+            </ListItem>
+          );
+        }
+      })}
     </List>
   );
 }

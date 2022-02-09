@@ -17,6 +17,7 @@ struct Payload {
 
 #[tauri::command]
 fn get_next_dir_and_return_new_dir_data(new_path: String) -> String {
+  println!("called");
   return return_dir_data(new_path).to_string();
 }
 
