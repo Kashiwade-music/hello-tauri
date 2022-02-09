@@ -1,6 +1,8 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## パッケージマネージャ
+中身はyarn使った方がよさそう
 
 ## Available Scripts
 
