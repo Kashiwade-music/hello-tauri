@@ -16,9 +16,8 @@ struct Payload {
 */
 
 #[tauri::command]
-fn get_next_dir_and_return_new_dir_data(new_path: String) {
-  println!("JSからメッセージ：{}", new_path);
-  println!("次のJS\n{}", return_dir_data(new_path).to_string());
+fn get_next_dir_and_return_new_dir_data(new_path: String) -> String {
+  return return_dir_data(new_path).to_string();
 }
 
 fn main() {

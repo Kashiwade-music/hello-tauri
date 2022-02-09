@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { emit, listen } from "@tauri-apps/api/event";
 import { appWindow, WebviewWindow } from "@tauri-apps/api/window";
 import { invoke } from "@tauri-apps/api/tauri";
@@ -14,12 +14,31 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import "./App.css";
 import MyAppBar from "./components/AppBar";
+import FileList from "./components/FileList";
+import "./@types/dirData.d.ts";
 
 const handleClick = () => {
   console.info("You clicked the Chip.");
 };
 
 function App() {
+  const initial_dirData: DirData.RootObject = {
+    currentDir: "",
+    dataList: [{ isDir: false, name: "" }],
+    err: false,
+  };
+
+  const [dirData, setDirData] = useState<DirData.RootObject>(initial_dirData);
+
+  const chengeDirectoryTo = (newPath: string) => {
+    invoke("get_next_dir_and_return_new_dir_data", {
+      newPath: newPath,
+    }).then((rustMsg) => {
+      setDirData(JSON.parse(rustMsg as string));
+      console.log(rustMsg);
+    });
+  };
+
   return (
     <div className="App">
       <Box sx={{ flexGrow: 1 }}>
@@ -31,35 +50,14 @@ function App() {
           </Stack>
         </Box>
         <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary="Trash" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary="Spam" />
-              </ListItemButton>
-            </ListItem>
-          </List>
+          <FileList
+            currentDir={dirData.currentDir}
+            dataList={dirData.dataList}
+            err={dirData.err}
+          />
         </Box>
       </Box>
-      <Button
-        variant="contained"
-        onClick={() => {
-          console.log("クリックされた");
-          invoke("get_next_dir_and_return_new_dir_data", {
-            newPath: "../",
-          });
-        }}
-      >
+      <Button variant="contained" onClick={() => chengeDirectoryTo("../")}>
         Contained
       </Button>
     </div>
