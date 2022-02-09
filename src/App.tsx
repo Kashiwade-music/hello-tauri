@@ -2,6 +2,8 @@ import React from "react";
 import logo from "./logo.svg";
 import tauriCircles from "./tauri.svg";
 import { emit, listen } from "@tauri-apps/api/event";
+import { appWindow, WebviewWindow } from "@tauri-apps/api/window";
+import { invoke } from "@tauri-apps/api/tauri";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -126,6 +128,15 @@ function App() {
           </List>
         </Box>
       </Box>
+      <Button
+        variant="contained"
+        onClick={() => {
+          console.log("クリックされた");
+          invoke("get_next_dir_and_return_new_dir_data", { newPath: "c" });
+        }}
+      >
+        Contained
+      </Button>
     </div>
   );
 }
