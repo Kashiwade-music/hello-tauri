@@ -14,8 +14,14 @@ struct Payload {
 )]
 */
 
+#[tauri::command]
+fn get_next_dir_and_return_new_dir_data(new_path: String) {
+  println!("JSからメッセージ：{}", new_path);
+}
+
 fn main() {
   tauri::Builder::default()
+    /*
     .setup(|app| {
       // listen to the `event-name` (emitted on any window)
       let id = app.listen_global("cd_dir_to", |event| {
@@ -26,9 +32,22 @@ fn main() {
           .emit_all("new_dir_json", Payload { message: mes })
           .unwrap()
       });
-
+      // unlisten to the event using the `id` returned on the `listen_global` function
+      // an `once_global` API is also exposed on the `App` struct
+      // emit the `event-name` event to all webview windows on the frontend
+      app
+        .emit_all(
+          "click",
+          Payload {
+            message: "Tauri is awesome!".into(),
+          },
+        )
+        .unwrap();
       Ok(())
-    })
+    })*/
+    .invoke_handler(tauri::generate_handler![
+      get_next_dir_and_return_new_dir_data
+    ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
